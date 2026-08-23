@@ -138,7 +138,7 @@ body.open-flap .envelope-flap-top {
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     transition: opacity 0.4s ease;
-    pointer-events: none; /* Let clicks pass through to the flap */
+    pointer-events: none;
 }
 
 body.open-flap .seal {
@@ -164,12 +164,11 @@ body.open-flap .tap-hint {
     50% { opacity: 1; }
 }
 
-
 /* --- The Scrollable Paper --- */
 
 .card-container {
     position: relative;
-    z-index: 2; /* Sits exactly between back pocket (1) and front pocket (3) */
+    z-index: 2;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -184,27 +183,27 @@ body.paper-pull-up .card-container {
 
 /* STEP 3: Paper comes FORWARD and drops DOWN on top of the pocket */
 body.paper-drop-down .card-container {
-    z-index: 5; /* Bring over the front pocket */
-    transform: translateY(0); /* Reset transform */
-    margin-top: 10vh; /* Drop down to top of screen */
-    margin-bottom: 20vh; /* Scroll room */
+    z-index: 5;
+    transform: translateY(0);
+    margin-top: 10vh;
+    margin-bottom: 20vh;
 }
 
 .card {
     position: relative;
-    width: 300px; /* Slightly narrower than pocket */
-    max-height: 220px; /* Folded size inside pocket */
+    width: 300px;
+    max-height: 160px; /* تنظیم ارتفاع جهت پنهان ماندن کامل در پاکت بسته */
     background-color: var(--card-bg);
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
     overflow: hidden;
-    transform: translateY(10px); /* Align perfectly inside pocket */
+    transform: translateY(-15px);
     transition: max-height 1.5s ease-in-out, transform 1.5s ease-in-out;
 }
 
 body.paper-drop-down .card {
-    max-height: 2500px; /* Unroll the paper fully */
-    transform: translateY(0); /* Sit perfectly */
+    max-height: 2500px;
+    transform: translateY(0);
 }
 
 /* Card Content Styling */
@@ -247,7 +246,6 @@ h1.title {
     font-family: 'Noto Nastaliq Urdu', serif;
     font-size: 16px;
     color: var(--primary-dark);
-    /* border-bottom: 1px solid var(--primary-color); */
     padding-bottom: 5px;
     display: inline-block;
     min-width: 150px;
@@ -393,7 +391,7 @@ h1.title {
     }
     .card {
         width: 380px;
-        max-height: 280px;
+        max-height: 220px;
     }
 }
 
@@ -482,25 +480,18 @@ h1.title {
     font-size: 1.5rem;
 }
 
-.card .content {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-body.paper-drop-down .card .content {
-    opacity: 1;
-}
-
-body:not(.paper-drop-down) .card .content {
-    visibility: hidden !important;
-}
-
+/* --- کنترل عدم نمایش محتوا قبل از باز شدن پاکت --- */
+body:not(.paper-drop-down) .card .content,
 body:not(.paper-drop-down) .invitee-name {
+    opacity: 0 !important;
+    visibility: hidden !important;
     display: none !important;
 }
 
 body.paper-drop-down .card .content {
+    opacity: 1 !important;
     visibility: visible !important;
+    display: flex !important;
 }
 
 body.paper-drop-down .invitee-name {

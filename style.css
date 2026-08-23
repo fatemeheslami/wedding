@@ -490,3 +490,19 @@ h1.title {
 body.paper-drop-down .card .content {
     opacity: 1;
 }
+
+body:not(.paper-drop-down) .card .content {
+    visibility: hidden !important;
+}
+
+body:not(.paper-drop-down) .invitee-name {
+    display: none !important;
+}
+
+body.paper-drop-down .card .content {
+    visibility: visible !important;
+}
+
+body.paper-drop-down .invitee-name {
+    display: inline-block !important;
+}

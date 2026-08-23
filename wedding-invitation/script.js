@@ -34,12 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // 1. Open the flap
             document.body.classList.add('open-flap');
             
-            // 2. Pull up the paper (Wait 800ms for flap to fully open)
+            // 2. Pull up the paper (Wait 1000ms - overlap with flap opening for harmony)
             setTimeout(() => {
                 document.body.classList.add('paper-pull-up');
-            }, 800);
+            }, 1000);
             
-            // 3. Drop down and unroll (Wait 600ms for the paper to completely clear the pocket)
+            // 3. Drop down and unroll (Wait 1500ms for the pull-up to finish)
             setTimeout(() => {
                 document.body.classList.add('paper-drop-down');
                 
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         behavior: 'smooth'
                     });
                 }, 100);
-            }, 1400); // 800 + 600
+            }, 2500); // 1000 + 1500
         }
     });
 

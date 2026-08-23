@@ -1,0 +1,475 @@
+:root {
+    --primary-color: #d4af37; /* Gold */
+    --primary-dark: #b5952f;
+    --text-color: #333333;
+    --bg-color: #fcfbf8;
+    --envelope-color: #f2ebd9;
+    --envelope-dark: #e5dac1;
+    --envelope-shadow: rgba(0, 0, 0, 0.2);
+    --card-bg: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    background-image: radial-gradient(circle at center, #ffffff 0%, #f4efe6 100%);
+    overflow-x: hidden;
+}
+
+/* --- The Pocket (Fixed to Center) --- */
+
+.pocket-fixed {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    height: 240px;
+    pointer-events: none;
+}
+
+/* 1. Back Layer */
+.pocket-back {
+    z-index: 1;
+}
+
+.envelope-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--envelope-color);
+    border-radius: 4px;
+    box-shadow: 0 10px 30px var(--envelope-shadow);
+}
+
+/* 2. Front Layer */
+.pocket-front {
+    z-index: 3;
+}
+
+.envelope-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+}
+
+/* Flap shapes using borders */
+.envelope-flap-bottom {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-bottom: 120px solid var(--envelope-color);
+    pointer-events: auto;
+}
+
+.envelope-flap-left {
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 0;
+    border-top: 120px solid transparent;
+    border-bottom: 120px solid transparent;
+    border-left: 160px solid var(--envelope-dark);
+    pointer-events: auto;
+}
+
+.envelope-flap-right {
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 0;
+    border-top: 120px solid transparent;
+    border-bottom: 120px solid transparent;
+    border-right: 160px solid var(--envelope-dark);
+    pointer-events: auto;
+}
+
+/* 3. The Top Flap */
+.pocket-flap {
+    z-index: 4;
+    perspective: 1200px;
+    transition: z-index 0s 0.4s;
+}
+
+body.open-flap .pocket-flap {
+    z-index: 0;
+}
+
+.envelope-flap-top {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    transform-origin: top;
+    transition: transform 0.8s ease-in-out;
+    background: linear-gradient(to bottom right, transparent 50%, rgba(0,0,0,0.05) 50%);
+    clip-path: polygon(0 0, 100% 0, 50% 60%);
+    background-color: var(--envelope-color);
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+body.open-flap .envelope-flap-top {
+    transform: rotateX(180deg);
+    cursor: default;
+}
+
+/* The Seal */
+.seal {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, var(--primary-color) 40%, var(--primary-dark) 100%);
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: opacity 0.4s ease;
+    pointer-events: none; /* Let clicks pass through to the flap */
+}
+
+body.open-flap .seal {
+    opacity: 0;
+}
+
+.tap-hint {
+    position: absolute;
+    bottom: -40px;
+    width: 100%;
+    text-align: center;
+    color: #888;
+    font-size: 0.9rem;
+    animation: pulseHint 2s infinite;
+}
+
+body.open-flap .tap-hint {
+    display: none;
+}
+
+@keyframes pulseHint {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+
+/* --- The Scrollable Paper --- */
+
+.card-container {
+    position: relative;
+    z-index: 2; /* Sits exactly between back pocket (1) and front pocket (3) */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: calc(50vh - 110px); 
+    transition: transform 0.6s ease-in-out, margin-top 0.8s ease-in-out;
+}
+
+/* STEP 2: Paper pulls OUT of the pocket completely */
+body.paper-pull-up .card-container {
+    transform: translateY(-400px);
+}
+
+/* STEP 3: Paper comes FORWARD and drops DOWN on top of the pocket */
+body.paper-drop-down .card-container {
+    z-index: 5; /* Bring over the front pocket */
+    transform: translateY(0); /* Reset transform */
+    margin-top: 10vh; /* Drop down to top of screen */
+    margin-bottom: 20vh; /* Scroll room */
+}
+
+.card {
+    position: relative;
+    width: 300px; /* Slightly narrower than pocket */
+    max-height: 220px; /* Folded size inside pocket */
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transform: translateY(10px); /* Align perfectly inside pocket */
+    transition: max-height 1.5s ease-in-out, transform 0.6s ease-in-out;
+}
+
+body.paper-drop-down .card {
+    max-height: 2500px; /* Unroll the paper fully */
+    transform: translateY(0); /* Sit perfectly */
+}
+
+/* Card Content Styling */
+.card-background {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: 0;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 15px;
+    align-items: center;
+    padding: 30px 15px;
+    text-align: center;
+}
+
+h1.title {
+    font-family: 'Noto Nastaliq Urdu', serif;
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+.greeting {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.invitee-name {
+    font-family: 'Noto Nastaliq Urdu', serif;
+    font-size: 2rem;
+    color: var(--primary-dark);
+    border-bottom: 1px solid var(--primary-color);
+    padding-bottom: 5px;
+    display: inline-block;
+    min-width: 150px;
+    line-height: 1.6;
+}
+
+.poem {
+    font-family: 'Noto Nastaliq Urdu', serif;
+    font-size: 1.2rem;
+    line-height: 2.5;
+    color: #555;
+    margin: 10px 0;
+}
+
+.names-couple {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    font-family: 'Noto Nastaliq Urdu', serif;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin: 15px 0;
+}
+
+.names-couple .and {
+    font-size: 1.2rem;
+    color: #888;
+    font-family: 'Vazirmatn', sans-serif;
+}
+
+.details {
+    background: rgba(212, 175, 55, 0.05);
+    border-radius: 12px;
+    padding: 10px;
+    width: 100%;
+    border: 1px dashed rgba(212, 175, 55, 0.3);
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+.location-section {
+    width: 100%;
+    margin-top: 10px;
+    padding-bottom: 40px;
+}
+
+.location-section h3 {
+    font-family: 'Noto Nastaliq Urdu', serif;
+    font-size: 1.8rem;
+    color: var(--primary-dark);
+    margin-bottom: 5px;
+}
+
+.address {
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Buttons */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--primary-dark);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background: #fdfaf2;
+}
+
+/* Responsive Desktop Tweaks */
+@media (min-width: 501px) {
+    .pocket-fixed {
+        width: 400px;
+        height: 300px;
+    }
+    .envelope-flap-bottom {
+        border-left: 200px solid transparent;
+        border-right: 200px solid transparent;
+        border-bottom: 150px solid var(--envelope-color);
+    }
+    .envelope-flap-left {
+        border-top: 150px solid transparent;
+        border-bottom: 150px solid transparent;
+        border-left: 200px solid var(--envelope-dark);
+    }
+    .envelope-flap-right {
+        border-top: 150px solid transparent;
+        border-bottom: 150px solid transparent;
+        border-right: 200px solid var(--envelope-dark);
+    }
+    .card-container {
+        margin-top: calc(50vh - 140px);
+    }
+    .card {
+        width: 380px;
+        max-height: 280px;
+    }
+}
+
+/* --- Map Modal --- */
+.map-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.map-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.map-modal-content {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px 20px 0 0;
+    padding: 25px 20px 40px;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
+}
+
+.map-modal-overlay.active .map-modal-content {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    font-size: 1.2rem;
+    color: var(--primary-dark);
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #888;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.map-apps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.map-app-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    transition: all 0.2s;
+}
+
+.map-app-btn:hover {
+    background: #f0f0f0;
+    transform: scale(1.02);
+}
+
+.app-icon {
+    font-size: 1.5rem;
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>کارت دعوت عروسی</title>
+  
+  <!-- Open Graph / Telegram / WhatsApp Link Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://your-website-domain.com/">
+  <meta property="og:title" content="کارت دعوت عروسی | فاطمه و امیرحسین">
+  <meta property="og:description" content="با کمال میل و افتخار، شما را به جشن پیوند آسمانی‌مان دعوت می‌کنیم. منتظر حضور گرمتان هستیم.">
+  <meta property="og:image" content="https://your-website-domain.com/floral_decoration_1787038415938.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="کارت دعوت عروسی | فاطمه و امیرحسین">
+  <meta name="twitter:description" content="با کمال میل و افتخار، شما را به جشن پیوند آسمانی‌مان دعوت می‌کنیم. منتظر حضور گرمتان هستیم.">
+  <meta name="twitter:image" content="https://your-website-domain.com/floral_decoration_1787038415938.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Katibeh&family=Noto+Nastaliq+Urdu:wght@400;700&family=Vazirmatn:wght@300;400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Fixed Pocket Background -->
+  <div class="pocket-fixed pocket-back">
+    <div class="envelope-back"></div>
+  </div>
+
+  <!-- Scrollable Paper -->
+  <div class="card-container">
+    <div class="card" id="invitationCard">
+      <div class="card-background" style="background-image: url('floral_decoration_1787038415938.jpg');"></div>
+      <div class="content fade-in">
+        <h1 class="title">یا لطیف</h1>
+
+        <p class="greeting">مهمان عزیز</p>
+        <h2 class="invitee-name" id="inviteeName">مهمان عزیز</h2>
+
+        <p class="poem">
+          خانه‌ای ساخته‌ایم، سایبانش همه عشق<br>
+          زیر پا فرش غرور، در حصارش همه نور<br>
+          به دعوت عشق، منتظر حضور گرمتان هستیم.
+        </p>
+
+        <div class="names-couple">
+          <span class="name">فاطمه</span>
+          <span class="and">و</span>
+          <span class="name">امیرحسین</span>
+        </div>
+
+        <div class="details">
+          <div class="detail-item">
+            <span class="icon">📅</span>
+            <p>یکشنبه، ۸ شهریور ۱۴۰۵</p>
+          </div>
+          <div class="detail-item">
+            <span class="icon">⏰</span>
+            <p>از ساعت ۱۷ الی ۱۹</p>
+          </div>
+        </div>
+
+        <div class="location-section">
+          <h3>مکان برگزاری</h3>
+          <p class="address">چهاراه سپهسالار،ابتدای خیابان ارباب،بعد از بانک سپه،ساختمان مهرآیین،خانه عقد هور</p>
+
+          <div class="action-buttons">
+            <button id="openMapModal" class="btn btn-primary pulse">
+              <span class="btn-icon">📍</span>
+              مسیریابی
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed Pocket Front -->
+  <div class="pocket-fixed pocket-front">
+    <div class="envelope-front"></div>
+    <div class="envelope-flap-bottom"></div>
+    <div class="envelope-flap-left"></div>
+    <div class="envelope-flap-right"></div>
+    <div class="tap-hint" id="tapHint">برای باز کردن ضربه بزنید</div>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Fixed Pocket Flap (Separated for perfect z-index layering) -->
+  <div class="pocket-fixed pocket-flap" id="pocketFlap">
+    <div class="envelope-flap-top" id="flapTop"></div>
+    <div class="seal">باز کردن</div>
+  </div>
+
+  <!-- Map Selection Modal -->
+  <div class="map-modal-overlay" id="mapModal">
+    <div class="map-modal-content">
+      <div class="modal-header">
+        <h3>انتخاب مسیریاب</h3>
+        <button class="close-modal" id="closeMapModal">&times;</button>
+      </div>
+      <div class="map-apps-list">
+        <a href="https://maps.app.goo.gl/pGgdstz48qLT68SB9?g_st=atm" target="_blank" class="map-app-btn google-maps">
+          <span class="app-icon">🗺️</span>
+          گوگل مپس (Google Maps)
+        </a>
+        <a href="nshn://build/route?lat=32.62888&lng=51.66699" target="_blank" class="map-app-btn neshan">
+          <span class="app-icon">🧭</span>
+          نشان (Neshan)
+        </a>
+        <a href="balad://app?lat=32.62888&lng=51.66699" target="_blank" class="map-app-btn balad">
+          <span class="app-icon">📍</span>
+          بلد (Balad)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

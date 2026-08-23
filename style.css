@@ -240,13 +240,14 @@ h1.title {
 .greeting {
     font-size: 0.8rem;
     color: #666;
+    font-weight: bold;
 }
 
 .invitee-name {
     font-family: 'Noto Nastaliq Urdu', serif;
-    font-size: 2rem;
+    font-size: 16px;
     color: var(--primary-dark);
-    border-bottom: 1px solid var(--primary-color);
+    /* border-bottom: 1px solid var(--primary-color); */
     padding-bottom: 5px;
     display: inline-block;
     min-width: 150px;

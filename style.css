@@ -481,3 +481,12 @@ h1.title {
 .app-icon {
     font-size: 1.5rem;
 }
+
+.card .content {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body.paper-drop-down .card .content {
+    opacity: 1;
+}
